@@ -10,16 +10,21 @@ import io.pleo.antaeus.models.Customer
 import io.pleo.antaeus.models.Invoice
 import io.pleo.antaeus.models.InvoiceStatus
 import io.pleo.antaeus.models.Money
+import io.pleo.antaeus.models.Charge
 import org.jetbrains.exposed.sql.ResultRow
 
-fun ResultRow.toInvoice(): Invoice = Invoice(
+import java.time.LocalDateTime
+
+fun ResultRow.toInvoice(charges: List<Charge>): Invoice = Invoice(
     id = this[InvoiceTable.id],
     amount = Money(
         value = this[InvoiceTable.value],
         currency = Currency.valueOf(this[InvoiceTable.currency])
     ),
     status = InvoiceStatus.valueOf(this[InvoiceTable.status]),
-    customerId = this[InvoiceTable.customerId]
+    customerId = this[InvoiceTable.customerId],
+    nextSchedule = this[InvoiceTable.nextSchedule],
+    charges = charges
 )
 
 fun ResultRow.toCustomer(): Customer = Customer(
