@@ -26,3 +26,14 @@ fun ResultRow.toCustomer(): Customer = Customer(
     id = this[CustomerTable.id],
     currency = Currency.valueOf(this[CustomerTable.currency])
 )
+
+fun ResultRow.toCharge(): Charge =
+    if(this[ChargeTable.error] == null) {
+        Charge.Successful(id = this[ChargeTable.id])
+    } else {
+        Charge.Unsuccessful(
+            id = this[ChargeTable.id],
+            error = null, //some mapping maybe?
+            errorMessage = this[ChargeTable.error]
+        )
+    }
