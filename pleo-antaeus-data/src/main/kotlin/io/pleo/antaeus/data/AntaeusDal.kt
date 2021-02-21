@@ -15,6 +15,7 @@ import io.pleo.antaeus.models.InvoiceStatus
 import io.pleo.antaeus.models.Money
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.update
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -38,7 +39,23 @@ class AntaeusDal(private val db: Database) {
         return transaction(db) {
             InvoiceTable
                 .selectAll()
-                .map { it.toInvoice() }
+                .map { it.toInvoice(fetchChargesForInvoiceId(it[InvoiceTable.id])) }
+        }
+    }
+
+    fun fetchPendingInvoices(): List<Invoice> {
+        return transaction(db) {
+            val query = InvoiceTable
+                .select { InvoiceTable.status.eq(InvoiceStatus.PENDING.toString()) and InvoiceTable.nextSchedule.lessEq(DateTime.now()) }
+
+            if(DateTime.now().getDayOfMonth() == 1) {
+                query.orWhere {
+                    Op.build {
+                        InvoiceTable.status.eq(InvoiceStatus.PENDING.toString()) and InvoiceTable.nextSchedule.isNull()
+                    }
+                }
+            }
+            query.map { it.toInvoice(fetchChargesForInvoiceId(it[InvoiceTable.id])) }
         }
     }
 
@@ -52,6 +69,26 @@ class AntaeusDal(private val db: Database) {
                     it[this.status] = status.toString()
                     it[this.customerId] = customer.id
                 } get InvoiceTable.id
+        }
+
+        return fetchInvoice(id)
+    }
+
+    fun updateInvoice(id: Int, status: InvoiceStatus, nextSchedule: DateTime?, charges: List<Charge>): Invoice? {
+        transaction(db) {
+            charges
+                .filter { it.id == null }
+                .map { charge ->
+                    ChargeTable.insert {
+                        it[ChargeTable.invoiceId] = id
+                        it[ChargeTable.error] = charge?.error?.message
+                    }
+                }
+            InvoiceTable
+                .update ({ InvoiceTable.id eq id }) {
+                    it[this.status] = status.toString()
+                    it[this.nextSchedule] = nextSchedule
+                }
         }
 
         return fetchInvoice(id)
