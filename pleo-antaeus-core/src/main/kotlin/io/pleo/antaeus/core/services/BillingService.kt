@@ -3,12 +3,16 @@ package io.pleo.antaeus.core.services
 import io.pleo.antaeus.core.external.PaymentProvider
 import io.pleo.antaeus.core.exceptions.UnbillableInvoice
 import io.pleo.antaeus.core.exceptions.NotEnoughBalance
+
+import io.pleo.antaeus.core.services.InvoiceService
+
 import io.pleo.antaeus.models.Charge
 import io.pleo.antaeus.models.Invoice
 import io.pleo.antaeus.models.InvoiceStatus
 
 class BillingService(
-    private val paymentProvider: PaymentProvider
+    private val paymentProvider: PaymentProvider,
+    private val invoiceService: InvoiceService
 ) {
     // The main function of this module
     // Provide Invoice and get back a Result that either

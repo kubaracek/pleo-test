@@ -13,6 +13,8 @@ fun Project.kotlinProject() {
         // Kotlin libs
         "implementation"(kotlin("stdlib"))
 
+        //coroutines
+        "implementation"("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0")
 
         // Dates
         "implementation"("joda-time:joda-time:2.9.4")
