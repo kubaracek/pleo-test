@@ -16,6 +16,7 @@ allprojects {
 
     tasks.withType<KotlinCompile>().configureEach {
         kotlinOptions.jvmTarget = "11"
+        kotlinOptions.freeCompilerArgs = listOf("-Xallow-result-return-type")
     }
 
     tasks.withType<Test> {
