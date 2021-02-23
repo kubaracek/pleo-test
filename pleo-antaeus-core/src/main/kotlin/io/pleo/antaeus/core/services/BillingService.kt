@@ -23,4 +23,17 @@ class BillingService(
             },
             {Charge.Unsuccessful(null, it, null)}
         )
+
+    // returns a list of preflight check errors
+    private fun validateInvoice(invoice: Invoice): List<String> =
+        listOf(
+            Pair(invoice.status == InvoiceStatus.PAID,
+                 "This invoice is already Paid"
+            )
+            // TODO not sure I should be doing the upcoming pre-flight check
+            // it raises some questions
+            // Pair(invoice.amount.currency == invoice.customer().currency,
+            //      "Invoice currency doesn't match with Customer currency"
+            // )
+        ).filter { it.first }.map { it.second }
 }
