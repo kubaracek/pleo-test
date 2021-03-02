@@ -1,88 +1,48 @@
-## Antaeus
+## Preparation Phase
 
-Antaeus (/ænˈtiːəs/), in Greek mythology, a giant of Libya, the son of the sea god Poseidon and the Earth goddess Gaia. He compelled all strangers who were passing through the country to wrestle with him. Whenever Antaeus touched the Earth (his mother), his strength was renewed, so that even if thrown to the ground, he was invincible. Heracles, in combat with him, discovered the source of his strength and, lifting him up from Earth, crushed him to death.
+To keep things simple I initially draw this to give myself an idea what I want to build.
 
-Welcome to our challenge.
+![Architecture](images/initial-architecture.jpg)
 
-## The challenge
+I took this as an oportunity to test how I would use Kotlin working on my personal projects.
+I really have no idea if this is *the Kotlin way* or if the community prefers to write the code a bit more imperative.
+What I found is that Kotlin shines best (for me) by the ability of combining both functional and object oriented patterns.
 
-As most "Software as a Service" (SaaS) companies, Pleo needs to charge a subscription fee every month. Our database contains a few invoices for the different markets in which we operate. Your task is to build the logic that will schedule payment of those invoices on the first of the month. While this may seem simple, there is space for some decisions to be taken and you will be expected to justify them.
+Keep in mind this is my first Kotlin code :))
 
-## Instructions
+## Things that kept me busy :)
 
-Fork this repo with your solution. Ideally, we'd like to see your progression through commits, and don't forget to update the README.md to explain your thought process.
+ 1) Exposed! I was strugling to find some easy to follow documentation and this kept me busy probably the longest :))
+   - I'm pretty sure that the way I'm preloading Charges to an Invoice is not the most efficient and there's probably a single method that does that for me
+ 2) DateTime. I was spending too much time trying to combine Exposed and Java's datetime so I decided to go with Joda even though I wanted to keep this dependency less :))
+ 3) Kotlin has Char! I got stucked for good 20 minutes fighting a compiler error when I realised that it all comes down to a second error where the compiler been complainin about using single quote around whole string :D
 
-Please let us know how long the challenge takes you. We're not looking for how speedy or lengthy you are. It's just really to give us a clearer idea of what you've produced in the time you decided to take. Feel free to go as big or as small as you want.
+## Multinode
 
-## Developing
+Straight from the beginning I knew this is the 'Achilles heel' when running this in production.
+Things that popped up to my mind Kafka :hearth: or Akka sound .. it sounded .. logical. 
 
-Requirements:
-- \>= Java 11 environment
+I specifically didn't spend too much time on this as in production environment that would be a bit different setup.
+And installing Kafka or Akka would be an extremely hard dependency for the test task :))
 
-Open the project using your favorite text editor. If you are using IntelliJ, you can open the `build.gradle.kts` file and it is gonna setup the project in the IDE for you.
+My initial thinking would be to use Kafka, then I realised that Kotlin is a JVM so Akka could be an option too
+A Single producer with many consumers where message UID being the id of the Invoice - to avoid duplicate processing.
 
-### Building
 
-```
-./gradlew build
-```
+## What I think of Kotlin
 
-### Running
+**The Good**
+  - Algebraic type system!
+  - Has many functional principles
+  - 'easier' Scala but still very powerful
+  - Fairly easy to pick-up. Knowing a bit of Scala and Haskell helps a lot
+  - Compiler gives helpful error messages ( Unlike Haskell for example :D )
 
-There are 2 options for running Anteus. You either need libsqlite3 or docker. Docker is easier but requires some docker knowledge. We do recommend docker though.
+**The bad**
+  - Would like to see more functional types provided by the language. Eg: Either or Maybe I was really missing (they are easy to implement though)
+  - I do struggle finding documentation for libraries.
+  - jvm :))
+  - Would be great to have a function prefix that would mark function without a side effect (pure)
+  - I do not fully understand the type system hirearchy, need to read a bit more about that. Eg companion objects, how to properly extend SUM type etc.
 
-*Running Natively*
-
-Native java with sqlite (requires libsqlite3):
-
-If you use homebrew on MacOS `brew install sqlite`.
-
-```
-./gradlew run
-```
-
-*Running through docker*
-
-Install docker for your platform
-
-```
-docker build -t antaeus
-docker run antaeus
-```
-
-### App Structure
-The code given is structured as follows. Feel free however to modify the structure to fit your needs.
-```
-├── buildSrc
-|  | gradle build scripts and project wide dependency declarations
-|  └ src/main/kotlin/utils.kt 
-|      Dependencies
-|
-├── pleo-antaeus-app
-|       main() & initialization
-|
-├── pleo-antaeus-core
-|       This is probably where you will introduce most of your new code.
-|       Pay attention to the PaymentProvider and BillingService class.
-|
-├── pleo-antaeus-data
-|       Module interfacing with the database. Contains the database 
-|       models, mappings and access layer.
-|
-├── pleo-antaeus-models
-|       Definition of the Internal and API models used throughout the
-|       application.
-|
-└── pleo-antaeus-rest
-        Entry point for HTTP REST API. This is where the routes are defined.
-```
-
-### Main Libraries and dependencies
-* [Exposed](https://github.com/JetBrains/Exposed) - DSL for type-safe SQL
-* [Javalin](https://javalin.io/) - Simple web framework (for REST)
-* [kotlin-logging](https://github.com/MicroUtils/kotlin-logging) - Simple logging framework for Kotlin
-* [JUnit 5](https://junit.org/junit5/) - Testing framework
-* [Mockk](https://mockk.io/) - Mocking library
-* [Sqlite3](https://sqlite.org/index.html) - Database storage engine
-
-Happy hacking 😁!
+I'm actually so happy with the language that I'm considering using it as my primary language for quick personal projects :party:
