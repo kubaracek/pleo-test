@@ -6,6 +6,8 @@ To keep things simple I initially draw this to give myself an idea what I want t
 
 What I found is that Kotlin shines best (for me) by the ability of combining both functional and OOP patterns.
 
+This implementation expects that the gateway is idempotent but I think this is usual in the financial world.
+
 Keep in mind this is my first Kotlin code :))
 
 ## Features
