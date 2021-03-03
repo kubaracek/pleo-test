@@ -4,9 +4,7 @@ To keep things simple I initially draw this to give myself an idea what I want t
 
 ![Architecture](images/initial-architecture.jpg)
 
-I took this as an oportunity to test how I would use Kotlin working on my personal projects.
-I really have no idea if this is *the Kotlin way* or if the community prefers to write the code a bit more imperative.
-What I found is that Kotlin shines best (for me) by the ability of combining both functional and object oriented patterns.
+What I found is that Kotlin shines best (for me) by the ability of combining both functional and OOP patterns.
 
 Keep in mind this is my first Kotlin code :))
 
@@ -23,7 +21,7 @@ Keep in mind this is my first Kotlin code :))
 
 ## Things that kept me busy :)
 
- 1) Exposed! I was strugling to find some easy to follow documentation and this kept me busy probably the longest :))
+ 1) Exposed! Had a problem finding a proper documentation
    - I'm pretty sure that the way I'm preloading Charges to an Invoice is not the most efficient and there's probably a single method that does that for me
  2) DateTime. I was spending too much time trying to combine Exposed and Java's datetime so I decided to go with Joda even though I wanted to keep this dependency less :))
  3) Kotlin has Char! I got stucked for good 20 minutes fighting a compiler error when I realised that it all comes down to a second error where the compiler been complainin about using single quote around whole string :D
