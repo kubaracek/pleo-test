@@ -26,10 +26,12 @@ Keep in mind this is my first Kotlin code :))
  2) DateTime. I was spending too much time trying to combine Exposed and Java's datetime so I decided to go with Joda even though I wanted to keep this dependency less :))
  3) Kotlin has Char! I got stucked for good 20 minutes fighting a compiler error when I realised that it all comes down to a second error where the compiler been complainin about using single quote around whole string :D
 
-## Multinode
+## Multinode / Scaling this up
 
 Straight from the beginning I knew this is the 'Achilles heel' when running this in production.
 Things that popped up to my mind Kafka :hearth: or Akka sound .. it sounded .. logical. 
+
+I wanted to avoid doing something that would be for example locking rows.
 
 I specifically didn't spend too much time on this as in production environment that would be a bit different setup.
 And installing Kafka or Akka would be an extremely hard dependency for the test task :))
