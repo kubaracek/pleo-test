@@ -33,7 +33,7 @@ Keep in mind this is my first Kotlin code :))
 Straight from the beginning I knew this is the 'Achilles heel' when running this in production.
 Things that popped up to my mind Kafka :hearth: or Akka sound .. it sounded .. logical. 
 
-I wanted to avoid doing something that would be for example locking rows.
+I wanted to avoid doing something that would for example lock rows in the database... 
 
 I specifically didn't spend too much time on this as in production environment that would be a bit different setup.
 And installing Kafka or Akka would be an extremely hard dependency for the test task :))
