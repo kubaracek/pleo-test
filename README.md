@@ -10,6 +10,8 @@ This implementation expects that the gateway is idempotent but I think this is u
 
 Keep in mind this is my first Kotlin code :))
 
+There's a merged pull-request with the changes I made so it should be easier to review https://github.com/kubaracek/pleo-test/pull/1
+
 ## Features
  - Retry logic
    - Tried to make it extendable and not as simple as 'rety in x'
